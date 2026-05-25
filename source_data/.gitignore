@@ -1,1 +1,4 @@
 *.tsv
+development_fmri/
+basc_multiscale_2015/
+README.md

@@ -4,7 +4,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is the `airoh-mini` template — a starting point for structuring a reproducible data analysis. It is built on the [`invoke`](https://www.pyinvoke.org/) task runner. The `airoh` pip package provides reusable invoke tasks; this repo customizes them via `tasks.py` and `invoke.yaml`.
+This project classifies resting-state fMRI participants into children (ages 3–13) and adults (ages 18–39) using functional connectivity features extracted with NiLearn. It is a secondary analysis of the NiLearn development fMRI dataset (a public OpenNeuro dataset). The pipeline uses a BASC 64-ROI parcellation, a linear SVC with cross-validation, and saves figures via a visualization notebook.
+
+Built on the [`invoke`](https://www.pyinvoke.org/) task runner. The `airoh` pip package provides reusable invoke tasks; this repo customizes them via `tasks.py` and `invoke.yaml`.
+
+**Project-specific conventions:**
+- The natural chunk unit is **subject**, indexed 0–65 (balanced subset: 32 adults + 34 children).
+- Per-subject connectomes are saved as `output_data/connectome_sub{idx:03d}.npy` (vectorized, shape 2016).
+- `run-connectivity` always re-aggregates `connectomes.npz` after the per-subject loop.
+- `run-classify` is idempotent: skips if `classification_results.json` exists.
+- Data is downloaded by NiLearn's built-in fetchers (`fetch_development_fmri`, `fetch_atlas_basc_multiscale_2015`) into `source_data/development_fmri/` and `source_data/basc_multiscale_2015/`; no `invoke.yaml` `files:` entries are needed.
 
 ## Persona
 
